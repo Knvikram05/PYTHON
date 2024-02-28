@@ -1,0 +1,62 @@
+
+//SIMPLE GAME
+
+from kivy.app import App
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.button import Button
+from random import choice
+
+class RockPaperScissors(App):
+    def build(self):
+        self.grid = GridLayout(cols=3)
+        self.labels = []
+        self.choices = ['Rock', 'Paper', 'Scissors']
+        for _ in range(15):
+            label = Button(text='', font_size=20, size_hint=(1, 0.5))
+            self.labels.append(label)
+            self.grid.add_widget(label)
+        for choice in self.choices:
+            button = Button(text=choice, font_size=20, size_hint=(1, 0.5))
+            button.bind(on_press=self.play)
+            self.grid.add_widget(button)
+        new_game_button = Button(text='New Game', font_size=20, size_hint=(1, 0.5))
+        new_game_button.bind(on_press=self.new_game)
+        self.grid.add_widget(new_game_button)
+        return self.grid
+
+    def play(self, instance):
+        if len([label.text for label in self.labels if label.text]) >= 15:
+            self.determine_winner()
+            return
+        player_choice = instance.text
+        computer_choice = choice(self.choices)
+        round_index = len([label.text for label in self.labels if label.text]) // 3
+        self.labels[round_index * 3].text = f'Round {round_index + 1}:'
+        self.labels[round_index * 3 + 1].text = f'Your choice: {player_choice}'
+        self.labels[round_index * 3 + 2].text = f'Computer\'s choice: {computer_choice}'
+        if player_choice == computer_choice:
+            self.labels[round_index * 3].text += '\nIt\'s a tie!'
+        elif (player_choice == 'Rock' and computer_choice == 'Scissors') or \
+             (player_choice == 'Paper' and computer_choice == 'Rock') or \
+             (player_choice == 'Scissors' and computer_choice == 'Paper'):
+            self.labels[round_index * 3].text += '\nYou win!'
+        else:
+            self.labels[round_index * 3].text += '\nComputer wins!'
+
+    def determine_winner(self):
+        player_wins = sum('You win!' in label.text for label in self.labels)
+        computer_wins = sum('Computer wins!' in label.text for label in self.labels)
+        if player_wins > computer_wins:
+            print('You win the majority of rounds!')
+        elif player_wins < computer_wins:
+            print('Computer wins the majority of rounds!')
+        else:
+            print('It\'s a tie in the majority of rounds!')
+
+    def new_game(self, instance):
+        for label in self.labels:
+            label.text = ''
+        self.grid.remove_widget(instance)
+
+if __name__ == '__main__':
+    RockPaperScissors().run()
