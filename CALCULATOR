@@ -12,7 +12,7 @@ kivy.require('2.0.0')
 class CalculatorApp(App):
     def build(self):
         # Create the main layout as a BoxLayout
-        main_layout = BoxLayout(orientation='vertical', spacing=5)
+        main_layout = BoxLayout(orientation='vertical', spacing=5) 
 
         # Create the display label
         self.display = Label(text='0', font_size=40, size_hint_y=0.2, halign='right')
