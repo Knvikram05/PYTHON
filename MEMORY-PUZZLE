@@ -12,7 +12,7 @@ from kivy.core.window import Window
 class MemoryMatchGame(App):
     def __init__(self, **kwargs):
         super(MemoryMatchGame, self).__init__(**kwargs)
-        self.cards = list(range(1, 9)) * 2  # 16 cards with numbers 1-8 (duplicated)
+        self.cards = list(range(1, 9)) * 2  # 16 cards with numbers 1-8 (duplicated) 
         shuffle(self.cards)  # Shuffle the cards
         self.first_card = None
         self.second_card = None
