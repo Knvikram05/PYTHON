@@ -25,7 +25,7 @@ class RockPaperScissors(App):
         return self.grid
 
     def play(self, instance):
-        if len([label.text for label in self.labels if label.text]) >= 15:
+        if len([label.text for label in self.labels if label.text]) >= 15: 
             self.determine_winner()
             return
         player_choice = instance.text
