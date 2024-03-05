@@ -1,1 +1,101 @@
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+from kivy.uix.slider import Slider
+from kivy.uix.textinput import TextInput
+from kivy.uix.screenmanager import ScreenManager, Screen
+
+
+class MovieRatingApp(App):
+    def build(self):
+        # Screen Manager
+        self.sm = ScreenManager()
+
+        # Main Screen
+        self.main_screen = Screen(name='main')
+        self.sm.add_widget(self.main_screen)
+
+        # About Screen
+        self.about_screen = Screen(name='about')
+        self.about_screen.add_widget(Label(text="This is the About page"))
+        self.sm.add_widget(self.about_screen)
+
+        # Help Screen
+        self.help_screen = Screen(name='help')
+        self.help_screen.add_widget(Label(text="This is the Help page"))
+        self.sm.add_widget(self.help_screen)
+
+        # Contact Screen
+        self.contact_screen = Screen(name='contact')
+        self.contact_screen.add_widget(Label(text="This is the Contact page"))
+        self.sm.add_widget(self.contact_screen)
+
+        # Layout
+        self.layout = BoxLayout(orientation='vertical', padding=20, spacing=20)
+
+        # Search bar
+        self.search_bar = TextInput(hint_text='Search', size_hint=(1, None), height=40)
+        self.search_bar.bind(text=self.on_search)
+        self.layout.add_widget(self.search_bar)
+
+        # Initial movie list
+        self.movies = ['Movie 1', 'Movie 2', 'Movie 3', 'Movie 4']
+        self.display_movies(self.movies)
+
+        # Add Screen Manager to the main screen
+        self.main_screen.add_widget(self.layout)
+
+        return self.sm
+
+    def display_movies(self, movies):
+        # Clear existing movie buttons
+        self.layout.clear_widgets()
+
+        # Add search bar
+        self.layout.add_widget(self.search_bar)
+
+        # Display movie buttons
+        for movie_name in movies:
+            movie_button = Button(text=movie_name, on_press=self.show_rating_page, size_hint=(1, None), height=100)
+            self.layout.add_widget(movie_button)
+
+    def on_search(self, instance, value):
+        # Filter movies based on search text
+        searched_movies = [movie for movie in self.movies if value.lower() in movie.lower()]
+        self.display_movies(searched_movies)
+
+    def show_rating_page(self, instance):
+        # Clear the previous layout
+        self.layout.clear_widgets()
+
+        # Movie title
+        movie_title = Label(text=instance.text, font_size=24, size_hint=(1, 0.2))
+        self.layout.add_widget(movie_title)
+
+        # Rating slider
+        rating_slider = Slider(min=1, max=5, step=1, value=3, size_hint=(1, 0.2))
+        self.layout.add_widget(rating_slider)
+
+        # Submit button
+        submit_button = Button(text='Submit Rating', on_press=self.submit_rating, size_hint=(1, 0.2))
+        self.layout.add_widget(submit_button)
+
+    def submit_rating(self, instance):
+        # Retrieve the selected rating
+        selected_rating = self.layout.children[1].value
+        # Here you can implement functionality to save the rating to a database or perform other actions
+        print(f"Rating submitted: {selected_rating}")
+
+        # Show a message thanking the user for the review
+        self.layout.clear_widgets()
+        thank_you_label = Label(text="Thanks for your review!", font_size=24)
+        self.layout.add_widget(thank_you_label)
+
+    def switch_to_screen(self, screen_name):
+        self.sm.current = screen_name
+
+
+if __name__ == '__main__':
+    MovieRatingApp().run()
 
