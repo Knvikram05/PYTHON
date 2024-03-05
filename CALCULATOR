@@ -19,7 +19,7 @@ class CalculatorApp(App):
         main_layout.add_widget(self.display)
 
         # Create the layout for the calculator buttons
-        buttons_layout = GridLayout(cols=4, spacing=5, size_hint_y=0.8)
+        buttons_layout = GridLayout(cols=4, spacing=5, size_hint_y=0.8) 
 
         # Define the buttons for the calculator
         buttons = [
