@@ -18,7 +18,7 @@ class RockPaperScissors(App):
         for choice in self.choices:
             button = Button(text=choice, font_size=20, size_hint=(1, 0.5)) 
             button.bind(on_press=self.play)
-            self.grid.add_widget(button)
+            self.grid.add_widget(button) 
         new_game_button = Button(text='New Game', font_size=20, size_hint=(1, 0.5))
         new_game_button.bind(on_press=self.new_game)
         self.grid.add_widget(new_game_button)
