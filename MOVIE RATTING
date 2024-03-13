@@ -19,7 +19,7 @@ class MovieRatingApp(App):
         # About Screen
         self.about_screen = Screen(name='about')
         self.about_screen.add_widget(Label(text="This is the About page")) 
-        self.sm.add_widget(self.about_screen)
+        self.sm.add_widget(self.about_screen) 
 
         # Help Screen
         self.help_screen = Screen(name='help')
